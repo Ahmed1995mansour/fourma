@@ -841,7 +841,9 @@ details.how[open] summary{border:0;margin-bottom:6px}
   }
 
   /* how-to media: slug -> file in media/. Files are added as they arrive. */
-  const MEDIA = {};
+  const MEDIA = {
+    "bench-press": {f:"media/bench-press.mp4", poster:"media/bench-press.jpg", talk:true, credit:"TikTok @kg.workouts"}
+  };
 
   function equipChip(n){
     const q = EQUIP[n]; if (!q) return "";
@@ -853,12 +855,17 @@ details.how[open] summary{border:0;margin-bottom:6px}
   }
   function fillHowTo(d){
     const body = d.querySelector(".how-body"); if (body.dataset.done) return;
-    const f = MEDIA[d.dataset.media], n = d.dataset.name;
+    const m = MEDIA[d.dataset.media], n = d.dataset.name;
+    const f = m && (typeof m === "string" ? m : m.f);
     const yt = "https://www.youtube.com/results?search_query=" + encodeURIComponent(n + " exercise form");
     if (f){
-      body.innerHTML = /\.(mp4|webm)$/i.test(f)
-        ? `<video src="${f}" autoplay loop muted playsinline controls preload="metadata"></video>`
-        : `<img src="${f}" alt="طريقة ${esc(n)}" loading="lazy">`;
+      const talk = m.talk, poster = m.poster ? ` poster="${m.poster}"` : "";
+      body.innerHTML = (/\.(mp4|webm)$/i.test(f)
+        ? (talk
+            ? `<video src="${f}"${poster} playsinline controls preload="metadata"></video><p class="small">فيه شرح بالصوت، شغّله بالصوت.</p>`
+            : `<video src="${f}"${poster} autoplay loop muted playsinline controls preload="metadata"></video>`)
+        : `<img src="${f}" alt="طريقة ${esc(n)}" loading="lazy">`)
+        + (m.credit ? `<p class="small">المصدر: ${esc(m.credit)}</p>` : "");
     } else {
       body.innerHTML = `<p class="small">لسه مفيش فيديو للتمرين ده في الأبلكيشن. ابعتهولي وأنا أضيفه.</p><a class="yt" href="${yt}" target="_blank" rel="noopener">دوّر على فيديو في يوتيوب</a>`;
     }
