@@ -1,5 +1,5 @@
 // Fourma service worker: app shell cached for offline use, fonts cached on first load.
-const VERSION = "fourma-v1";
+const VERSION = "fourma-v2";
 const SHELL = ["./", "index.html", "manifest.webmanifest",
   "icons/icon-192.png", "icons/icon-512.png", "icons/maskable-512.png", "icons/apple-touch-icon.png"];
 
@@ -9,7 +9,7 @@ self.addEventListener("install", e => {
 
 self.addEventListener("activate", e => {
   e.waitUntil(caches.keys()
-    .then(keys => Promise.all(keys.filter(k => k !== VERSION).map(k => caches.delete(k))))
+    .then(keys => Promise.all(keys.filter(k => !k.startsWith(VERSION) && !k.endsWith("-media") && !k.endsWith("-fonts")).map(k => caches.delete(k))))
     .then(() => self.clients.claim()));
 });
 
@@ -35,6 +35,19 @@ self.addEventListener("fetch", e => {
     e.respondWith(fetch(req).then(r => {
       const copy = r.clone(); caches.open(VERSION).then(c => c.put("index.html", copy)); return r;
     }).catch(() => caches.match("index.html")));
+    return;
+  }
+
+  // How-to videos and GIFs: keep a copy after the first view so they play offline
+  if (url.pathname.includes("/media/")) {
+    if (req.headers.has("range")) return; // video seeking: let the browser handle it
+    e.respondWith(caches.open(VERSION + "-media").then(async c => {
+      const hit = await c.match(req, {ignoreVary: true});
+      if (hit) return hit;
+      const r = await fetch(req);
+      if (r.ok && r.status === 200) c.put(req, r.clone());
+      return r;
+    }));
     return;
   }
 

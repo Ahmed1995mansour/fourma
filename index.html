@@ -234,6 +234,20 @@ body{margin:0;-webkit-tap-highlight-color:transparent}
 [hidden]{display:none!important}
 img{max-width:100%}
 input,button{touch-action:manipulation}
+
+.eqrow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:3px}
+.eq{font-size:11.5px;font-weight:700;padding:1px 9px;border-radius:6px;border:1px solid transparent}
+.eq-bar{background:var(--work-soft);color:var(--work)}
+.eq-db{background:var(--food-soft);color:var(--food)}
+.eq-cable{background:var(--home-soft);color:var(--home)}
+.eq-machine{background:var(--sleep-soft);color:var(--sleep)}
+.eq-bw,.eq-band,.eq-bar2,.eq-wheel,.eq-tread{background:var(--self-soft);color:var(--self)}
+.eq-d{font-size:12px;color:var(--muted)}
+details.how{background:transparent;border:0;border-radius:0;padding:0;margin-top:6px}
+details.how summary{padding:2px 0;font-size:13px;font-weight:600;color:var(--pitch);border:0;margin:0}
+details.how[open] summary{border:0;margin-bottom:6px}
+.how-body video,.how-body img{display:block;width:100%;max-width:420px;border-radius:10px;background:var(--bg)}
+.how-body .yt{display:inline-block;margin-top:4px;font-size:13px;font-weight:600;color:var(--pitch)}
 </style>
 
 </head>
@@ -465,9 +479,9 @@ input,button{touch-action:manipulation}
       ["إطالة الضامة (<span class='en'>Butterfly</span>)","45 ثانية"],
       ["إطالة السمانة","30 ثانية لكل رجل"]]}
   };
-  const WARM_MAIN = "40% × 8، بعدها 60% × 5، بعدها 80% × 3";
-  const WARM_COMP = "50% × 8، بعدها 75% × 4";
-  const WARM_ISO  = "مجموعة واحدة 50–70% × 10";
+  const WARM_MAIN = "<span dir='ltr' class='num'>40% × 8 → 60% × 5 → 80% × 3</span>";
+  const WARM_COMP = "<span dir='ltr' class='num'>50% × 8 → 75% × 4</span>";
+  const WARM_ISO  = "مجموعة واحدة <span dir='ltr' class='num'>50–70% × 10</span>";
   const TREAD = {n:"Incline Treadmill Walk", k:"walk", sets:"10–15 دقيقة", c:"ميل 8–12، سرعة 4.5–5.5. تنهج بس تقدر تتكلم."};
 
   const HABITS = [["h1","اتوزنت الصبح على الريق"],["h2","3 لتر مية"],["h3","8–10 آلاف خطوة"],["h4","بروتين 160 جم"],["h5","غسلت سناني الصبح"],["h6","غسلت سناني قبل النوم"]];
@@ -736,6 +750,57 @@ input,button{touch-action:manipulation}
       <ul class="plain">${p.items.map(([a,b])=>`<li><b>${a}</b>: ${b}</li>`).join("")}</ul></div>`;
   }
 
+  /* equipment per exercise: [type, detail] — type picks the chip color */
+  const EQ_LABEL = {bar:"بار", db:"دمبل", cable:"كابل", machine:"جهاز", bw:"وزن الجسم", band:"أستك", bar2:"عقلة", tread:"مشاية", wheel:"عجلة البطن"};
+  const EQUIP = {
+    "Bench Press":["bar","بنش مستوي"], "Barbell Row":["bar",""], "Seated Dumbbell Shoulder Press":["db","بنش ضهره مفرود"],
+    "Lat Pulldown":["cable","جهاز السحب العالي"], "Lateral Raise":["db",""], "EZ-Bar Curl":["bar","بار EZ المتعرّج"],
+    "Triceps Rope Pushdown":["cable","حبل"], "Back Squat":["bar","رَك السكوات"], "Romanian Deadlift":["bar",""],
+    "Walking Lunges (Dumbbell)":["db",""], "Leg Curl":["machine",""], "Standing Calf Raise":["machine","أو سميث"],
+    "Tibialis Raise":["bw","ضهرك على الحيطة"], "Incline Dumbbell Press":["db","بنش مايل 30°"],
+    "Assisted Pull-ups":["machine","جهاز المساعدة، أو عقلة بأستك"], "Seated Cable Row":["cable","مقبض V"],
+    "Arnold Press":["db","بنش ضهره مفرود"], "Face Pull":["cable","حبل، البكرة في مستوى وشك"],
+    "Incline Dumbbell Curl":["db","بنش مايل 45°"], "Overhead Cable Triceps Extension":["cable","حبل"],
+    "Hammer Curl":["db",""], "Deadlift (Trap Bar)":["bar","Trap Bar، أو بار عادي"], "Bulgarian Split Squat":["db","بنش ورا"],
+    "Hip Thrust":["bar","بنش + وسادة للبار، أو جهاز"], "Nordic Curl":["bw","رجلك متثبتة تحت بنش أو مع زميل"],
+    "Copenhagen Plank":["bw","بنش"], "Single-leg Balance":["bw",""], "Single-leg Calf Raise":["bw","سلمة، وممكن دمبل في إيدك"],
+    "Incline Treadmill Walk":["tread",""],
+    "Cable Crunch":["cable","حبل، وأنت راكع"], "Dead Bug":["bw","على مرتبة"], "Hanging Knee Raise":["bar2",""],
+    "Plank":["bw",""], "Hanging Leg Raise":["bar2",""], "Pallof Press":["cable","مقبض واحد، البكرة في مستوى صدرك"],
+    "Ab Wheel Rollout":["wheel","على ركبك"], "Side Plank":["bw",""],
+    "Lateral Band Walk":["band","mini band فوق الركبة"], "Single-leg Step-down":["bw","سلمة"], "Single-leg RDL":["bw",""],
+    "Y-Balance Reach":["bw",""], "Snap-down Landing":["bw",""], "Single-leg Glute Bridge":["bw","على الأرض"],
+    "Bird Dog":["bw","على مرتبة"], "Side Plank with Reach":["bw",""],
+    "90/90 Hip Switch":["bw","على الأرض"], "Couch Stretch":["bw","كنبة أو حيطة"], "Pigeon Stretch":["bw","على مرتبة"],
+    "Adductor Rock-back":["bw","على مرتبة"], "Half-kneeling Hamstring Stretch":["bw",""], "Knee-to-Wall Ankle":["bw","حيطة"],
+    "Deep Squat Hold":["bw",""], "Thoracic Open Book":["bw","على مرتبة"]
+  };
+
+  /* how-to media: slug -> file in media/. Files are added as they arrive. */
+  const MEDIA = {};
+
+  function equipChip(n){
+    const q = EQUIP[n]; if (!q) return "";
+    return `<span class="eq eq-${q[0]}">${EQ_LABEL[q[0]]}</span>${q[1]?`<span class="eq-d">${esc(q[1])}</span>`:""}`;
+  }
+  function howTo(n){
+    const s = slug(n);
+    return `<details class="how" data-media="${s}" data-name="${esc(n)}"><summary>شوف الطريقة</summary><div class="how-body"></div></details>`;
+  }
+  function fillHowTo(d){
+    const body = d.querySelector(".how-body"); if (body.dataset.done) return;
+    const f = MEDIA[d.dataset.media], n = d.dataset.name;
+    const yt = "https://www.youtube.com/results?search_query=" + encodeURIComponent(n + " exercise form");
+    if (f){
+      body.innerHTML = /\.(mp4|webm)$/i.test(f)
+        ? `<video src="${f}" autoplay loop muted playsinline controls preload="metadata"></video>`
+        : `<img src="${f}" alt="طريقة ${esc(n)}" loading="lazy">`;
+    } else {
+      body.innerHTML = `<p class="small">لسه مفيش فيديو للتمرين ده في الأبلكيشن. ابعتهولي وأنا أضيفه.</p><a class="yt" href="${yt}" target="_blank" rel="noopener">دوّر على فيديو في يوتيوب</a>`;
+    }
+    body.dataset.done = "1";
+  }
+
   function exRow(e, id){
     let pills = "", warm = "", log = "";
     if (e.k === "main" || e.k === "comp"){
@@ -753,7 +818,7 @@ input,button{touch-action:manipulation}
       log = `<div class="logrow"><label for="w-${s}">أتقل مجموعة:</label><input id="w-${s}" data-w="${s}" inputmode="decimal" placeholder="كجم"><span class="last" data-last="${s}"></span></div>`;
     }
     return `<li data-row="${id}">${box(id)}<div><div class="exname"><label for="ck-${id}" class="ttl en">${esc(e.n)}</label></div>
-      <div class="meta">${pills}</div>${warm}<p class="cue">${esc(e.c)}</p>${log}</div></li>`;
+      <div class="eqrow">${equipChip(e.n)}</div><div class="meta">${pills}</div>${warm}<p class="cue">${esc(e.c)}</p>${log}${howTo(e.n)}</div></li>`;
   }
 
   function render(){
@@ -970,6 +1035,9 @@ input,button{touch-action:manipulation}
     const b = e.target.closest(".tab"); if(!b) return;
     current = b.dataset.id; renderTabs(); render(); LS.set("fit:tab", current);
   });
+  document.getElementById("day").addEventListener("toggle", e=>{
+    const d = e.target; if (d.classList && d.classList.contains("how") && d.open) fillHowTo(d);
+  }, true);
   document.getElementById("prevWk").addEventListener("click", ()=>{ weekOffset--; renderTabs(); render(); subscribeWeek(); });
   document.getElementById("nextWk").addEventListener("click", ()=>{ weekOffset++; renderTabs(); render(); subscribeWeek(); });
 
