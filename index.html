@@ -511,8 +511,8 @@ details.how[open] summary{border:0;margin-bottom:6px}
      wu:"upper", cd:"upper",
      ex:[
       {n:"Bench Press", k:"main", reps:"6–8", rest:"راحة 2–3 د", c:"البار ينزل على نص صدرك، كتفك مشدود لورا، ورجلك ثابتة في الأرض."},
-      {n:"Barbell Row", k:"comp", reps:"8", rest:"راحة 2 د", c:"ضهرك مفرود ومايل 45°، واسحب البار ناحية بطنك."},
-      {n:"Seated Dumbbell Shoulder Press", k:"comp", reps:"8–10", rest:"راحة 90 ث", c:"متقوّسش ضهرك، وانزل لحد مستوى ودنك."},
+      {n:"Chest-supported Row (Machine)", k:"comp", reps:"8–10", rest:"راحة 2 د", c:"صدرك لازق في المسند طول الوقت. اسحب بكوعك لورا واقفل لوحي كتفك، وارجع ببطء لحد ما ضهرك يتمطّ."},
+      {n:"Machine Shoulder Press", k:"comp", reps:"8–10", rest:"راحة 90 ث", c:"ظبّط الكرسي بحيث المقابض في مستوى كتفك. ضهرك لازق في المسند، ومتفردش كوعك على الآخر فوق."},
       {n:"Lat Pulldown", k:"iso", reps:"10", rest:"راحة 90 ث", c:"اسحب لأعلى صدرك من غير ما تميل لورا كتير."},
       {n:"Lateral Raise", k:"iso", reps:"12–15", rest:"راحة 60 ث", c:"وزن خفيف، الكوع مثني سنة، ومترفعش أعلى من كتفك."},
       {n:"EZ-Bar Curl", k:"iso", sets:3, reps:"10", rest:"Superset مع اللي بعده", c:"كوعك ثابت جنبك، وانزل لحد ما دراعك يتفرد خالص.", partial:true},
@@ -756,7 +756,7 @@ details.how[open] summary{border:0;margin-bottom:6px}
   /* equipment per exercise: [type, detail] — type picks the chip color */
   const EQ_LABEL = {bar:"بار", db:"دمبل", cable:"كابل", machine:"جهاز", bw:"وزن الجسم", band:"أستك", bar2:"عقلة", tread:"مشاية", wheel:"عجلة البطن"};
   const EQUIP = {
-    "Bench Press":["bar","بنش مستوي"], "Barbell Row":["bar",""], "Seated Dumbbell Shoulder Press":["db","بنش ضهره مفرود"],
+    "Bench Press":["bar","بنش مستوي"], "Chest-supported Row (Machine)":["machine","صدرك على المسند، أو T-Bar Row بمسند"], "Machine Shoulder Press":["machine",""],
     "Lat Pulldown":["cable","جهاز السحب العالي"], "Lateral Raise":["db",""], "EZ-Bar Curl":["bar","بار EZ المتعرّج"],
     "Triceps Rope Pushdown":["cable","حبل"], "Back Squat":["bar","رَك السكوات"], "Romanian Deadlift":["bar",""],
     "Walking Lunges (Dumbbell)":["db",""], "Leg Curl":["machine",""], "Standing Calf Raise":["machine","أو سميث"],
@@ -782,8 +782,8 @@ details.how[open] summary{border:0;margin-bottom:6px}
   /* target muscles per exercise: [main, helpers] */
   const MUSCLES = {
     "Bench Press":["الصدر","الكتف الأمامي، التراي"],
-    "Barbell Row":["نص الضهر والـ Lats","الكتف الخلفي، البايسبس، أسفل الضهر"],
-    "Seated Dumbbell Shoulder Press":["الكتف الأمامي والجانبي","التراي، أعلى الصدر"],
+    "Chest-supported Row (Machine)":["نص الضهر والـ Lats","الكتف الخلفي، البايسبس"],
+    "Machine Shoulder Press":["الكتف الأمامي والجانبي","التراي، أعلى الصدر"],
     "Lat Pulldown":["الـ Lats (عرض الضهر)","البايسبس، الكتف الخلفي"],
     "Lateral Raise":["الكتف الجانبي","الترابيس"],
     "EZ-Bar Curl":["البايسبس","الساعد"],

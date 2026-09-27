@@ -1,5 +1,5 @@
 // Fourma service worker: app shell cached for offline use, fonts cached on first load.
-const VERSION = "fourma-v3";
+const VERSION = "fourma-v4";
 const SHELL = ["./", "index.html", "manifest.webmanifest",
   "icons/icon-192.png", "icons/icon-512.png", "icons/maskable-512.png", "icons/apple-touch-icon.png"];
 
