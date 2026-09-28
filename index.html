@@ -861,6 +861,39 @@ details.how[open] summary{border:0;margin-bottom:6px}
     return `<p class="mus"><b>العضلة:</b> ${esc(m[0])}${m[1]?`<span class="mus-h"> · بيساعد: ${esc(m[1])}</span>`:""}</p>`;
   }
 
+  /* grip per exercise: [English search term, Arabic how-to] — shown under the muscles and added to the YouTube search */
+  const GRIP = {
+    "Bench Press":["medium grip","مسكة من فوق (Overhand)، أعرض من كتفك بشبر تقريبًا، بحيث دراعك يبقى عمودي لما البار ينزل على صدرك. الإبهام ملفوف حوالين البار."],
+    "Chest-supported Row (Machine)":["neutral grip","المقابض اللي كفوفك فيها بتبص لبعض (Neutral). لو الجهاز فيه مقابض أفقية بس: من فوق وبعرض كتفك."],
+    "Machine Shoulder Press":["neutral grip","المقابض اللي كفوفك فيها بتبص لبعض (Neutral) أريح للكتف. لو مفيش غير الأفقية: من فوق وبعرض كتفك تقريبًا."],
+    "Lat Pulldown":["overhand grip","البار الطويل، مسكة من فوق (Overhand) أعرض من كتفك بشبر. مش على آخر البار، المسكة الواسعة جدًا بتقلل المدى."],
+    "Lateral Raise":["","دمبل في كل إيد، الكف بيبص للأرض والدمبل موازي للأرض. إنت بترفع بكوعك مش بإيدك."],
+    "EZ-Bar Curl":["close grip","مسكة من تحت (Underhand) على الانحناية الداخلية للبار، بعرض كتفك تقريبًا."],
+    "Triceps Rope Pushdown":["","حبل، الإبهام لفوق والكفوف بتبص لبعض (Neutral). في الآخر افتح طرفين الحبل لبرّه."],
+    "Back Squat":["high bar","البار على أعلى الترابيس (High bar)، مسكة من فوق أعرض من كتفك بشوية، وأضيق ما مرونتك تسمح. كوعك لتحت."],
+    "Romanian Deadlift":["double overhand","مسكة من فوق بالإيدين (Double overhand)، بعرض كتفك، إيديك برّه فخادك على طول. لو مسكتك فلتت استخدم Straps."],
+    "Walking Lunges (Dumbbell)":["","دمبل في كل إيد جنبك، الكفوف بتبص لجسمك (Neutral)."],
+    "Standing Calf Raise":["","إمسك مقابض الجهاز للتوازن بس، متشدّش بإيدك."],
+    "Incline Dumbbell Press":["","الكفوف لقدّام (Overhand)، ولفّها لجوّه سنة (حوالي 45°) لو كتفك بيضايقك. الدمبل فوق أعلى صدرك."],
+    "Assisted Pull-ups":["overhand grip","مسكة من فوق (Overhand)، أعرض من كتفك سنة. ده نفس شكل العقلة اللي هدفك توصلها."],
+    "Seated Cable Row":["v-bar","مقبض V الضيق، الكفوف بتبص لبعض (Neutral)."],
+    "Arnold Press":["","بتبدأ والكفوف بتبص لوشك قدّام دقنك، ولما ترفع لفّ إيدك لحد ما الكفوف تبص لقدّام فوق."],
+    "Face Pull":["rope","حبل، مسكة من فوق والإبهام بيبص لورا ناحيتك. اسحب ناحية وشك وافتح الحبل لبرّه عند ودانك."],
+    "Incline Dumbbell Curl":["","مسكة من تحت (Underhand)، الكف لقدّام طول الحركة. دراعك سايب لتحت ورا جسمك."],
+    "Overhead Cable Triceps Extension":["rope","حبل، ضهرك للجهاز، الإبهام لفوق والكفوف بتبص لبعض (Neutral)."],
+    "Hammer Curl":["","دمبل، الإبهام لفوق والكفوف بتبص لجسمك (Neutral) طول الحركة."],
+    "Cable Lateral Raise":["single arm","مقبض واحد (D-handle) في الإيد البعيدة عن الجهاز، الكابل معدّي قدّام جسمك."],
+    "Deadlift (Trap Bar)":["high handles","إمسك في نص المقابض بالظبط عشان الوزن يتوازن، الكفوف بتبص لجسمك (Neutral). ابدأ بالمقابض العالية لحد ما تتعلم الحركة."],
+    "Bulgarian Split Squat":["","دمبل في كل إيد جنبك، الكفوف بتبص لجسمك (Neutral)."],
+    "Hip Thrust":["","مسكة من فوق على البار برّه وسطك، بس عشان تثبّته. الشغل كله من الإلية."],
+    "Single-leg Calf Raise":["","الدمبل في نفس إيد الرجل اللي شغالة، والإيد التانية على الحيطة للتوازن."],
+    "Cable Crunch":["rope","حبل، طرفينه جنب وشك أو قدّام جبهتك، وإيدك ثابتة مكانها طول الحركة."],
+    "Hanging Knee Raise":["","مسكة من فوق (Overhand) بعرض كتفك. لو إيدك تعبت قبل بطنك استخدم Straps أو مساند الكوع."],
+    "Hanging Leg Raise":["","مسكة من فوق (Overhand) بعرض كتفك. لو إيدك تعبت قبل بطنك استخدم Straps."],
+    "Pallof Press":["","مقبض واحد (D-handle)، الإيدين الاتنين عليه لازقين في صدرك."],
+    "Ab Wheel Rollout":["","إمسك مقابض العجلة من فوق، دراعك مفرود."]
+  };
+
   /* how-to media: slug -> file in media/. Files are added as they arrive. */
   const MEDIA = {
     "bench-press": {f:"media/bench-press.mp4", poster:"media/bench-press.jpg", talk:true, credit:"TikTok @kg.workouts"},
@@ -868,6 +901,10 @@ details.how[open] summary{border:0;margin-bottom:6px}
     "machine-shoulder-press": {f:"media/machine-shoulder-press.mp4", poster:"media/machine-shoulder-press.jpg", talk:true, credit:"TikTok @kg.karimgabriel"}
   };
 
+  function gripLine(n){
+    const g = GRIP[n]; if (!g) return "";
+    return `<p class="mus"><b>المسكة:</b> ${esc(g[1])}</p>`;
+  }
   function equipChip(n){
     const q = EQUIP[n]; if (!q) return "";
     return `<span class="eq eq-${q[0]}">${EQ_LABEL[q[0]]}</span>${q[1]?`<span class="eq-d">${esc(q[1])}</span>`:""}`;
@@ -880,7 +917,7 @@ details.how[open] summary{border:0;margin-bottom:6px}
     const body = d.querySelector(".how-body"); if (body.dataset.done) return;
     const m = MEDIA[d.dataset.media], n = d.dataset.name;
     const f = m && (typeof m === "string" ? m : m.f);
-    const yt = "https://www.youtube.com/results?search_query=" + encodeURIComponent(n + " exercise form");
+    const yt = "https://www.youtube.com/results?search_query=" + encodeURIComponent(n + (GRIP[n] && GRIP[n][0] ? " " + GRIP[n][0] : "") + " exercise form");
     if (f){
       const talk = m.talk, poster = m.poster ? ` poster="${m.poster}"` : "";
       body.innerHTML = (/\.(mp4|webm)$/i.test(f)
@@ -912,7 +949,7 @@ details.how[open] summary{border:0;margin-bottom:6px}
       log = `<div class="logrow"><label for="w-${s}">أتقل مجموعة:</label><input id="w-${s}" data-w="${s}" inputmode="decimal" placeholder="كجم"><span class="last" data-last="${s}"></span></div>`;
     }
     return `<li data-row="${id}">${box(id)}<div><div class="exname"><label for="ck-${id}" class="ttl en">${esc(e.n)}</label></div>
-      <div class="eqrow">${equipChip(e.n)}</div>${muscleLine(e.n)}<div class="meta">${pills}</div>${warm}<p class="cue">${esc(e.c)}</p>${log}${howTo(e.n)}</div></li>`;
+      <div class="eqrow">${equipChip(e.n)}</div>${muscleLine(e.n)}${gripLine(e.n)}<div class="meta">${pills}</div>${warm}<p class="cue">${esc(e.c)}</p>${log}${howTo(e.n)}</div></li>`;
   }
 
   function render(){
