@@ -486,7 +486,7 @@ details.how[open] summary{border:0;margin-bottom:6px}
   };
   const C = {
     upper:{title:"إطالات آخر التمرين (اختياري)", time:"5 دقايق", items:[
-      ["إطالة الصدر على الباب","30 ثانية لكل ناحية"],
+      ["إطالة الصدر على الباب","30 ثانية لكل ناحية. الفيديو فيه كمان طريقة على العمود وطريقة على البنش","Chest Stretch"],
       ["إطالة الـ <span class='en'>Lats</span> على العمود","30 ثانية لكل ناحية"],
       ["<span class='en'>Child's Pose</span>","45 ثانية"]]},
     lower:{title:"إطالات آخر التمرين (اختياري)", time:"5 دقايق", items:[
@@ -770,7 +770,7 @@ details.how[open] summary{border:0;margin-bottom:6px}
 
   function phase(id, p){
     return `<div class="phase" data-row="${id}"><div class="phase-h">${box(id)}<h4><label for="ck-${id}" class="ttl">${p.title}</label><span>${p.time}</span></h4></div>
-      <ul class="plain">${p.items.map(([a,b])=>`<li><b>${a}</b>: ${b}</li>`).join("")}</ul></div>`;
+      <ul class="plain">${p.items.map(([a,b,m])=>`<li><b>${a}</b>: ${b}${m && MEDIA[slug(m)] ? howTo(m) : ""}</li>`).join("")}</ul></div>`;
   }
 
   /* equipment per exercise: [type, detail] — type picks the chip color */
@@ -904,7 +904,8 @@ details.how[open] summary{border:0;margin-bottom:6px}
     "ez-bar-curl": {f:"media/ez-bar-curl.mp4", poster:"media/ez-bar-curl.jpg", talk:true, credit:"TikTok @informa180"},
     "triceps-rope-pushdown": {f:"media/triceps-rope-pushdown.mp4", poster:"media/triceps-rope-pushdown.jpg", talk:true, credit:"TikTok @kg.karimgabriel"},
     "cable-crunch": {f:"media/cable-crunch.mp4", poster:"media/cable-crunch.jpg", talk:true, credit:"TikTok @kg.karimgabriel"},
-    "dead-bug": {f:"media/dead-bug.mp4", poster:"media/dead-bug.jpg", talk:true, credit:"TikTok @ibrku"}
+    "dead-bug": {f:"media/dead-bug.mp4", poster:"media/dead-bug.jpg", talk:true, credit:"TikTok @ibrku"},
+    "chest-stretch": {f:"media/chest-stretch.mp4", poster:"media/chest-stretch.jpg", talk:true, credit:"TikTok @abuhmeidfitness"}
   };
 
   function gripLine(n){
