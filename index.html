@@ -350,6 +350,10 @@ main{padding-bottom:calc(var(--tabbar) + env(safe-area-inset-bottom,0px) + 110px
 .ob-logo{width:64px;height:64px;flex:none;border-radius:16px;box-shadow:0 8px 24px color-mix(in srgb,#3550F0 35%,transparent)}
 .ob-word{display:block;font-family:"Alexandria","IBM Plex Sans Arabic",sans-serif;font-weight:700;font-size:28px;letter-spacing:-.5px;line-height:1.1;text-align:right}
 .ob-brand .small{display:block;margin-top:2px}
+
+.sched{padding:14px 0 4px}
+.sched .card-h{padding:0 16px}
+.sched .tl>li:first-child{border-top:1px solid var(--line)}
 </style>
 </head>
 <body>
@@ -1462,25 +1466,20 @@ main{padding-bottom:calc(var(--tabbar) + env(safe-area-inset-bottom,0px) + 110px
       <div class="prayers">${PRAYERS.map(([id,t])=>`<button type="button" class="pr" data-pr="${id.slice(1)}"><span>${t}</span><span class="st"></span></button>`).join("")}</div>
       <div class="legend"><span>دوسة: صليت · دوستين: في المسجد <b>★</b></span><span id="mWeek"></span></div></div>`;
 
-    const T = timed(day);
-    let openG = -1;
-    if (isToday()){ const nn = nowNext(day); const x = nn.cur || nn.next; openG = x ? x.g : 2; }
-    else { openG = [0,1,2].find(g => T.some(x => x.g===g && !c["t"+x.i])); if (openG == null) openG = 0; }
+    // one schedule for the whole day, in time order
+    const T = timed(day).slice().sort((x, y) => (x.s == null ? -1 : x.s) - (y.s == null ? -1 : y.s) || x.i - y.i);
     const nowI = isToday() ? (nowNext(day).cur || {}).i : -1;
-    GROUPS.forEach(([name, ic], g) => {
-      const items = T.filter(x => x.g === g); if (!items.length) return;
-      h += `<details class="grp" data-g="${g}" ${g===openG?"open":""}><summary>${ICO[ic]}<span>${name}</span><span class="cnt" data-cnt="${items.map(x=>"t"+x.i).join(",")}"></span>${CHEV}</summary><ol class="tl">${
-        items.map(({i, it}) => {
-          const [t,k,a,b,m,r] = it, id = "t"+i;
-          let extra = "";
-          if (m) extra += `<details class="more"><summary>${r&&r.length?"المكونات والوصفة":"المكونات"}</summary>${menuList(m)}${recipeCards(r)}</details>`;
-          if (k === "gym" && hasWorkout(day)) extra += `<button type="button" class="golink" data-go="train">افتح التمرين ←</button>`;
-          if (k === "deen" && /حفظ/.test(a)) extra += `<button type="button" class="golink" data-go="progress" data-seg="quran">افتح الحفظ ←</button>`;
-          if (k === "deen" && /ورد/.test(a)) extra += `<button type="button" class="golink" data-go="progress" data-seg="quran">سجّل الصفحة ←</button>`;
-          return `<li data-row="${id}" class="${i===nowI?"now":""}">${box(id)}<span class="t">${esc(t)}</span><div class="body">
-            <label for="ck-${id}"><span class="tdot d-${k}"></span><span class="ttl">${esc(a)}</span></label>${b?`<span class="sub">${esc(b)}</span>`:""}${extra}</div></li>`;
-        }).join("")}</ol></details>`;
-    });
+    h += `<div class="card sched"><div class="card-h"><h2>جدول اليوم</h2><span class="small" data-cnt="${T.map(x=>"t"+x.i).join(",")}"></span></div><ol class="tl">${
+      T.map(({i, it}) => {
+        const [t,k,a,b,m,r] = it, id = "t"+i;
+        let extra = "";
+        if (m) extra += `<details class="more"><summary>${r&&r.length?"المكونات والوصفة":"المكونات"}</summary>${menuList(m)}${recipeCards(r)}</details>`;
+        if (k === "gym" && hasWorkout(day)) extra += `<button type="button" class="golink" data-go="train">افتح التمرين ←</button>`;
+        if (k === "deen" && /حفظ/.test(a)) extra += `<button type="button" class="golink" data-go="progress" data-seg="quran">افتح الحفظ ←</button>`;
+        if (k === "deen" && /ورد/.test(a)) extra += `<button type="button" class="golink" data-go="progress" data-seg="quran">سجّل الصفحة ←</button>`;
+        return `<li data-row="${id}" class="${i===nowI?"now":""}">${box(id)}<span class="t">${esc(t)}</span><div class="body">
+          <label for="ck-${id}"><span class="tdot d-${k}"></span><span class="ttl">${esc(a)}</span></label>${b?`<span class="sub">${esc(b)}</span>`:""}${extra}</div></li>`;
+      }).join("")}</ol></div>`;
     document.getElementById("scr-today").innerHTML = h;
     refreshMarks();
   }
