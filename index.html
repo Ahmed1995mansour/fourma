@@ -143,6 +143,7 @@ section.block{margin-top:22px}
 .c-home{background:var(--home-soft);color:var(--home)}
 .c-sleep{background:var(--sleep-soft);color:var(--sleep)}
 .c-self{background:var(--self-soft);color:var(--self)}
+.c-deen{background:var(--pitch-soft);color:var(--pitch)}
 .sub{display:block;color:var(--muted);font-size:13px}
 .menu{margin:4px 0 0;padding:6px 12px;background:var(--food-soft);border-radius:8px;list-style:none;font-size:13.5px}
 .menu li::before{content:"· ";color:var(--food);font-weight:700}
@@ -261,6 +262,14 @@ details.recipe[open] summary{border:0;margin-bottom:6px}
 .rc ol{margin:4px 0 0;padding-inline-start:20px;font-size:13.5px}
 .rc ol li{margin:2px 0}
 .rc-tip{margin:6px 0 0;font-size:12.5px;color:var(--food)}
+
+.qbox{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:10px}
+.qbox .trk-in{border:0;padding:0;background:transparent}
+.qrow{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+table.hz td{white-space:normal}
+table.hz td:nth-child(1),table.hz td:nth-child(2){white-space:nowrap;font-variant-numeric:tabular-nums}
+table.hz tr.cur td{background:var(--pitch-soft)}
+table.hz .ck{width:20px;height:20px}
 </style>
 
 </head>
@@ -290,6 +299,34 @@ details.recipe[open] summary{border:0;margin-bottom:6px}
 
   <main id="day"></main>
 
+
+  <section class="block" style="margin-top:36px" id="quran">
+    <h3>القرآن <span class="hint">الختمة والحفظ</span></h3>
+    <div class="qbox">
+      <div class="qrow"><b>الختمة</b><span class="small">نص جزء في اليوم = ختمة كل شهرين</span></div>
+      <div class="trk-in" style="margin-top:6px">
+        <label for="qPage">آخر صفحة وصلتلها</label>
+        <input id="qPage" inputmode="numeric" placeholder="1–604">
+        <span class="small" id="qInfo"></span>
+      </div>
+      <div class="progress"><div class="track"><i id="qBar"></i></div><b id="qPct"></b></div>
+    </div>
+    <div class="qbox">
+      <div class="qrow"><b>حفظ سورة يوسف</b><span class="small" id="hInfo"></span></div>
+      <p class="small">مقطع كل أسبوع من القصة. الجمعة: تفسير ونطق وحفظ النص الأول. السبت: النص التاني وتسميع المقطع كله. وكل يوم راجعه في الصلاة.</p>
+      <div class="tablewrap"><table class="wk hz"><thead><tr><th>#</th><th>الآيات</th><th>المقطع</th><th>فهمت</th><th>حفظت</th><th>سمّعت صح</th></tr></thead><tbody id="hRows"></tbody></table></div>
+      <details class="how" style="margin-top:10px"><summary>طريقة الحفظ بفهم ونطق صح</summary><div class="how-body">
+        <ol class="plain">
+          <li><b>اسمع الأول:</b> شغّل المقطع بصوت قارئ واضح زي الحصري مرتّل أو المنشاوي (المصحف المعلّم)، وتابع في المصحف 3 مرات قبل ما تحفظ. ده بيظبط النطق والمدود من الأول.</li>
+          <li><b>افهم:</b> اقرا تفسير المقطع، التفسير الميسّر للمعنى السريع، والسعدي لو عايز عمق أكتر. اعرف المشهد ده فين في القصة، وإيه الكلمات الغريبة ومعناها.</li>
+          <li><b>احفظ آية آية:</b> كرر كل آية 5–10 مرات من المصحف، وبعدها من غير مصحف. وبعد كل 3 آيات اربطهم ببعض.</li>
+          <li><b>سمّع:</b> سمّع المقطع لحد، أو سجّل صوتك وقارنه بالقارئ. أحسن حاجة إنك تسمّع لشيخ أو في مقرأة أونلاين مرة في الأسبوع، عشان حد يصحّح النطق والتجويد. الأبلكيشن مش هيقدر يعمل ده.</li>
+          <li><b>راجع:</b> كل يوم اقرا المقطع الجديد في صلاتك، ومعاه مقطع قديم بالتناوب، فالحفظ يثبت.</li>
+        </ol>
+        <a class="yt" href="https://quran.com/12" target="_blank" rel="noopener">افتح سورة يوسف (قراءة وتفسير وتلاوة)</a>
+      </div></details>
+    </div>
+  </section>
   <section class="block" style="margin-top:36px" id="tracker">
     <h3>وزنك أسبوع بأسبوع <span class="hint">متوسط كل أسبوع من الأوزان اللي بتكتبها كل يوم الصبح</span></h3>
     <div class="tiles" id="trkTiles"></div>
@@ -306,12 +343,15 @@ details.recipe[open] summary{border:0;margin-bottom:6px}
   <section class="block" style="margin-top:36px">
     <h3>وقتك في الأسبوع</h3>
     <div class="week">
-      <div class="wcell"><div class="v">11¼ س</div><div class="l">مذاكرة</div></div>
-      <div class="wcell"><div class="v">5¾ س</div><div class="l">بلايستيشن</div></div>
+      <div class="wcell"><div class="v">8¼ س</div><div class="l">مذاكرة</div></div>
+      <div class="wcell"><div class="v">8 س</div><div class="l">بلايستيشن</div></div>
       <div class="wcell"><div class="v">~20 س</div><div class="l">أسرة (غير الحضانة)</div></div>
       <div class="wcell"><div class="v">4</div><div class="l">أيام جيم</div></div>
       <div class="wcell"><div class="v">3</div><div class="l">مرات بطن</div></div>
       <div class="wcell"><div class="v">3</div><div class="l">جلسات وقاية وليونة</div></div>
+      <div class="wcell"><div class="v">3½ جزء</div><div class="l">ورد قرآن</div></div>
+      <div class="wcell"><div class="v">1</div><div class="l">مقطع حفظ</div></div>
+      <div class="wcell"><div class="v">90 د</div><div class="l">جلستين حفظ</div></div>
     </div>
   </section>
 
@@ -516,7 +556,7 @@ details.recipe[open] summary{border:0;margin-bottom:6px}
   const WARM_ISO  = "مجموعة واحدة <span dir='ltr' class='num'>50–70% × 10</span>";
   const TREAD = {n:"Incline Treadmill Walk", k:"walk", sets:"10–15 دقيقة", c:"ميل 8–12، سرعة 4.5–5.5. تنهج بس تقدر تتكلم."};
 
-  const HABITS = [["h1","اتوزنت الصبح على الريق"],["h2","3 لتر مية"],["h3","8–10 آلاف خطوة"],["h4","بروتين 160 جم"],["h5","غسلت سناني الصبح"],["h6","غسلت سناني قبل النوم"]];
+  const HABITS = [["h1","اتوزنت الصبح على الريق"],["h2","3 لتر مية"],["h3","8–10 آلاف خطوة"],["h4","بروتين 160 جم"],["h5","غسلت سناني الصبح"],["h6","غسلت سناني قبل النوم"],["h7","راجعت المحفوظ في الصلاة"]];
   const PRAYERS = [["p1","الفجر"],["p2","الضهر"],["p3","العصر"],["p4","المغرب"],["p5","العشا"]];
 
   const DAYS = [
@@ -533,9 +573,10 @@ details.recipe[open] summary{border:0;margin-bottom:6px}
       ["2:30","home","تجيب ابنك من الحضانة",""],
       ["5:00","food","سناك","",["زبادي يوناني 170 جم","كوباية رمان أو فراولة"],["yogurt"]],
       ["5:00–7:00","home","وقت الأسرة","ساعتين"],
+      ["7:00–7:20","deen","ورد القرآن","نص جزء (10 صفحات) بعد العشا"],
       ["7:30","food","عشا","",["200 جم جبنة قريش بالطماطم والخيار والنعناع","نص رغيف","10 حبات لوز"],["qareesh"]],
       ["7:45–9:45","self","مذاكرة","ساعتين"],
-      ["9:45–10:15","self","بلايستيشن","نص ساعة"],
+      ["9:45–10:15","self","وقت حر","تهدى قبل النوم، ويا ريت من غير موبايل"],
       ["10:15","sleep","نوم","عشان جيم بكرة الصبح"]],
      wu:"upper", cd:"upper",
      ex:[
@@ -560,6 +601,7 @@ details.recipe[open] summary{border:0;margin-bottom:6px}
       ["2:30","home","تجيب ابنك من الحضانة",""],
       ["5:00","food","سناك","",["زبادي يوناني","تفاحة"]],
       ["5:00–7:00","home","وقت الأسرة","ساعتين"],
+      ["7:00–7:20","deen","ورد القرآن","نص جزء (10 صفحات) بعد العشا"],
       ["7:30","food","عشا","قبل الميتنج",["طبق صغير فول بمعلقة زبدة وكمون وفلفل أسود وملح","علبة تونة لايت بالمية، مصفّاة","نص رغيف"],["foul"]],
       ["8:00–9:30","work","ميتنج",""],
       ["10:15","sleep","نوم","عشان جيم بكرة الصبح"]],
@@ -589,9 +631,9 @@ details.recipe[open] summary{border:0;margin-bottom:6px}
       ["2:30","home","تجيب ابنك من الحضانة",""],
       ["5:00","food","سناك","",["150 جم قريش بالخيار والنعناع","جوافة"],["qareesh"]],
       ["5:00–7:00","home","وقت الأسرة","ساعتين"],
+      ["7:00–7:20","deen","ورد القرآن","نص جزء (10 صفحات) بعد العشا"],
       ["7:30","food","عشا","",["200 جم ستيك مشوي (وش فخدة أو كلوتة أو بوفتيك)","خضار سوتيه (كوسة وفلفل وجزر) بمعلقة زيت","150 جم بطاطس مسلوقة مهروسة"],["steak","sautee","mash"]],
-      ["7:45–9:45","self","مذاكرة","ساعتين"],
-      ["9:45–10:15","self","بلايستيشن","نص ساعة"],
+      ["7:45–9:45","self","بلايستيشن","ساعتين، يوم الراحة"],
       ["10:15","sleep","نوم","عشان جيم بكرة الصبح"]],
      wu:null, cd:"lower", ex:[], abs:[]},
     {id:"wed", d:"الأربع", k:"Upper B", badge:"جيم الصبح: الجزء العلوي + بطن",
@@ -607,9 +649,10 @@ details.recipe[open] summary{border:0;margin-bottom:6px}
       ["2:30","home","تجيب ابنك من الحضانة",""],
       ["5:00","food","سناك","",["طبق صغير فول بمعلقة زبدة وكمون وفلفل أسود وملح","نص رغيف"],["foul"]],
       ["5:00–7:00","home","وقت الأسرة","ساعتين"],
+      ["7:00–7:20","deen","ورد القرآن","نص جزء (10 صفحات) بعد العشا"],
       ["7:30","food","عشا","قبل الميتنج",["200 جم قريش","خيار","تفاحة","10 حبات لوز"]],
       ["8:00–9:30","work","ميتنج",""],
-      ["9:45–10:15","self","بلايستيشن","نص ساعة"],
+      ["9:45–10:15","self","وقت حر","تهدى قبل النوم، ويا ريت من غير موبايل"],
       ["10:15","sleep","نوم","عشان جيم بكرة الصبح"]],
      wu:"upper", cd:"upper",
      ex:[
@@ -634,14 +677,16 @@ details.recipe[open] summary{border:0;margin-bottom:6px}
       ["1:30","food","غدا","",["200 جم لحمة قطع صغيرة متشوّحة في معلقة زبدة بالبصل والفلفل الألوان","كوبايتين رز","سلطة"],["beefcubes","rice","salad"]],
       ["2:30","home","تجيب ابنك من الحضانة",""],
       ["5:00","food","سناك","",["زبادي يوناني","موزة"],["yogurt"]],
-      ["5:00–7:00","home","وقت الأسرة","ساعتين"],
+      ["5:00–6:40","home","وقت الأسرة",""],
+      ["6:40–7:00","deen","ورد القرآن","نص جزء"],
       ["7:00","food","وجبة قبل الماتش","قبله بساعتين",["علبة تونة لايت بالمية","250 جم بطاطس مسلوقة مهروسة (بشوية لبن خالي الدسم وملح وفلفل)","خيار"],["mash"]],
       ["7:15–8:30","self","مذاكرة","ساعة وربع"],
       ["8:30","food","طاقة سريعة","",["3 تمرات","مية بملح وليمون"]],
       ["8:45","gym","إحماء الكورة","15 دقيقة، التفاصيل تحت"],
       ["9:00–11:00","gym","الكورة",""],
       ["11:15","food","وجبة الاستشفاء","وبعدها الإطالات",["كوباية لبن خالي الدسم","موزة"]],
-      ["12:00","sleep","نوم",""]],
+      ["11:30–1:00","self","بلايستيشن","ساعة ونص، الجمعة إجازة"],
+      ["1:15","sleep","نوم",""]],
      wu:["upper","football"], cd:"football",
      ex:[
       {n:"Cable Lateral Raise", k:"iso", sets:3, reps:"15", rest:"راحة 45 ث لكل ناحية", c:"البكرة تحت، والكابل معدّي من قدّام جسمك. ارفع لحد مستوى كتفك وانزل ببطء. الكابل بيشد الكتف وهو متمطّط تحت.", partial:true},
@@ -653,17 +698,20 @@ details.recipe[open] summary{border:0;margin-bottom:6px}
       {n:"Dead Hang", k:"hold", sets:"2 × أطول وقت تقدر عليه", rest:"راحة 60 ث", c:"اتعلّق في العقلة ودراعك مفرود وكتفك مشدود لتحت شوية. بيقوّي المسكة والساعد وبيجهّزك للـ Pull-ups. عدّ الثواني وحاول تزوّد كل أسبوع."}],
      abs:[]},
     {id:"fri", d:"الجمعة", k:"ليونة", badge:"راحة + ليونة + الوجبة الحرة",
-     note:"اليوم اللي بيشحن فيه جسمك. مشي مع الأسرة بالعصر، وبعده 15 دقيقة ليونة للحوض والفخد والكاحل.",
+     note:"اليوم اللي بيشحن فيه جسمك. الصبح الحفظ والجمعة، وبعدها بلايستيشن ساعتين، وبالعصر مشي وليونة مع الأسرة.",
      tl:[
       ["براحتك","sleep","تصحى","نوم كامل"],
       ["10:00","food","فطار","",["طبق فول بمعلقة زبدة وكمون وفلفل أسود وملح","2 بيض","رغيف","وبعده القهوة"],["foul","eggs"]],
-      ["11:00–2:00","self","مذاكرة","3 ساعات"],
+      ["10:30–11:15","deen","حفظ: المقطع الجديد","تفسير ونطق وحفظ النص الأول، التفاصيل تحت"],
+      ["11:30–12:45","deen","صلاة الجمعة",""],
+      ["1:00–3:00","self","بلايستيشن","ساعتين"],
       ["3:00","food","غدا الأسرة","الوجبة الحرة",["ابدأ بالبروتين والسلطة","كُل لحد ما تشبع مش لحد ما تتقل"]],
       ["3:00–9:00","home","وقت الأسرة",""],
       ["6:00","gym","مشي 45 دقيقة","ولو مع الأسرة أحسن"],
       ["7:00","gym","روتين الليونة","15 دقيقة، التفاصيل تحت"],
+      ["8:20–8:40","deen","ورد القرآن","نص جزء"],
       ["9:00","food","عشا خفيف","",["زبادي يوناني","100 جم قريش","برتقالة أو يوسفي"]],
-      ["9:15–11:15","self","بلايستيشن","ساعتين"],
+      ["9:15–11:15","self","مذاكرة","ساعتين"],
       ["11:30","sleep","نوم",""]],
      wu:null, cd:null, ex:[], abs:[],
      routines:[{id:"r2", title:"روتين الليونة", time:"15 دقيقة", items:[
@@ -680,13 +728,16 @@ details.recipe[open] summary{border:0;margin-bottom:6px}
      tl:[
       ["8:00","sleep","تصحى",""],
       ["8:30","food","فطار","",["طبق فول بمعلقة زبدة وكمون وفلفل أسود وملح","أومليت 3 بياض + بيضة","رغيف","وبعده القهوة"],["foul","omelette"]],
+      ["9:00–9:45","deen","حفظ: تكملة المقطع + تسميع","التفاصيل تحت"],
       ["10:00–10:30","gym","تمرين الكورة في البيت","20 دقيقة، التفاصيل تحت"],
-      ["12:00","food","غدا","",["200 جم كبدة إسكندراني بمعلقة زيت","200 جم بطاطس مسلوقة مهروسة","سلطة"],["liver","mash","salad"]],
-      ["1:00–4:00","self","مذاكرة","3 ساعات"],
-      ["4:00–8:00","home","وقت الأسرة",""],
+      ["10:30–1:00","self","بلايستيشن","ساعتين ونص"],
+      ["1:00","food","غدا","",["200 جم كبدة إسكندراني بمعلقة زيت","200 جم بطاطس مسلوقة مهروسة","سلطة"],["liver","mash","salad"]],
+      ["1:30–4:30","self","مذاكرة","3 ساعات"],
+      ["4:30–8:00","home","وقت الأسرة","وفيه تحضير أكل الأسبوع"],
       ["5:00","food","سناك","",["200 جم قريش","خيار","برتقالة أو تفاحة"]],
+      ["7:30–7:50","deen","ورد القرآن","نص جزء"],
       ["8:00","food","عشا","",["كوباية شوربة عدس","سلطة تونة: علبة تونة لايت بالمية + خيار وطماطم وبصل وليمون","ربع رغيف"],["lentil","tunasalad"]],
-      ["8:15–10:00","self","بلايستيشن","ساعة و45 دقيقة"],
+      ["8:30–10:00","home","وقت حر مع الأسرة",""],
       ["10:15","sleep","نوم","عشان جيم بكرة الصبح"]],
      wu:null, cd:null, ex:[], abs:[],
      routines:[{id:"r1", title:"تمرين الكورة في البيت", time:"20 دقيقة", items:[
@@ -702,7 +753,7 @@ details.recipe[open] summary{border:0;margin-bottom:6px}
   ];
 
   const BREAD = {"رغيف":"رغيف بلدي (أو 3 توست أسمر)","رغيف بلدي":"رغيف بلدي (أو 3 توست أسمر)","نص رغيف":"نص رغيف (أو 2 توست أسمر)"};
-  const CHIP = {food:["أكل","c-food"],gym:["رياضة","c-gym"],work:["شغل","c-work"],home:["أسرة","c-home"],sleep:["نوم","c-sleep"],self:["ليك","c-self"]};
+  const CHIP = {food:["أكل","c-food"],gym:["رياضة","c-gym"],work:["شغل","c-work"],home:["أسرة","c-home"],sleep:["نوم","c-sleep"],self:["ليك","c-self"],deen:["عبادة","c-deen"]};
   const ORDER = ["sun","mon","tue","wed","thu","fri","sat"];
   const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
   const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
@@ -718,13 +769,14 @@ details.recipe[open] summary{border:0;margin-bottom:6px}
 
   /* ---------- state + storage ---------- */
   const state = { checks:{}, weights:{}, body:{w:{}, waist:{}} }; // body.w[date]=kg, body.waist[date]=cm
+  state.quran = {page:null, hifz:{}};
   let db = null;
   const LS = {
     get(k){ try{ return JSON.parse(localStorage.getItem(k)||"null"); }catch(e){ return null; } },
     set(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
   };
   const cached = LS.get("fit:v2");
-  if (cached){ state.checks = cached.checks||{}; state.weights = cached.weights||{}; if (cached.body) state.body = {w:cached.body.w||{}, waist:cached.body.waist||{}}; }
+  if (cached){ state.checks = cached.checks||{}; state.weights = cached.weights||{}; if (cached.body) state.body = {w:cached.body.w||{}, waist:cached.body.waist||{}}; if (cached.quran) state.quran = {page:cached.quran.page||null, hifz:cached.quran.hifz||{}}; }
   const saveLocal = () => LS.set("fit:v2", state);
 
   const chains = {};
@@ -1394,7 +1446,49 @@ details.recipe[open] summary{border:0;margin-bottom:6px}
     });
   }
 
-  renderTabs(); render();
+
+  /* ---------- Quran: khatma + hifz ---------- */
+  const YUSUF = [
+    [1,6,"رؤيا يوسف"],[7,14,"الإخوة بيتآمروا"],[15,20,"الجُب والبيع"],[21,29,"في بيت العزيز والمراودة"],
+    [30,35,"نسوة المدينة والسجن"],[36,42,"رؤيا صاحبي السجن"],[43,49,"رؤيا الملك"],[50,57,"البراءة والتمكين"],
+    [58,68,"الإخوة جايين مصر وبنيامين"],[69,79,"السقاية في رحل أخيه"],[80,87,"حزن يعقوب"],[88,93,"يوسف بيعرّفهم بنفسه"],
+    [94,101,"لقاء الأسرة وتحقيق الرؤيا"],[102,111,"الخاتمة والعبرة"]
+  ];
+  const HZ = [["t","فهمت التفسير"],["h","حفظت"],["s","سمّعت صح"]];
+  function renderQuran(){
+    const q = state.quran || (state.quran = {page:null, hifz:{}});
+    const pg = q.page, inp = document.getElementById("qPage");
+    if (document.activeElement !== inp) inp.value = pg || "";
+    const pct = pg ? Math.min(100, Math.round(pg/604*100)) : 0;
+    document.getElementById("qBar").style.width = pct+"%";
+    document.getElementById("qPct").textContent = `${pct}%`;
+    if (pg){
+      const left = Math.max(0, 604-pg), days = Math.ceil(left/10);
+      const fin = new Date(today); fin.setDate(fin.getDate()+days);
+      document.getElementById("qInfo").textContent = left ? `فاضل ${left} صفحة · هتختم تقريبًا ${short(fin)}` : "ختمت، ربنا يتقبل. ابدأ ختمة جديدة من صفحة 1.";
+    } else document.getElementById("qInfo").textContent = "اكتب رقم الصفحة بعد ورد النهارده.";
+    const cur = YUSUF.findIndex((_,i)=>!HZ.every(([k])=>(q.hifz[i]||{})[k]));
+    document.getElementById("hRows").innerHTML = YUSUF.map(([a,b,t],i)=>{
+      const st = q.hifz[i]||{};
+      return `<tr class="${i===cur?"cur":""}"><td>${i+1}</td><td>${a}–${b}</td><td>${t}</td>${HZ.map(([k,l])=>
+        `<td><input type="checkbox" class="ck" data-hz="${i}:${k}" aria-label="${l}: ${t}" ${st[k]?"checked":""}></td>`).join("")}</tr>`;
+    }).join("");
+    const done = YUSUF.filter((_,i)=>HZ.every(([k])=>(q.hifz[i]||{})[k])).length;
+    const vdone = YUSUF.filter((_,i)=>(q.hifz[i]||{}).h).reduce((n,[a,b])=>n+(b-a+1),0);
+    document.getElementById("hInfo").textContent = cur<0 ? "خلّصت السورة كلها، ما شاء الله" : `المقطع ${cur+1} من 14 · حفظت ${vdone} من 111 آية`;
+  }
+  document.getElementById("qPage").addEventListener("input", e=>{
+    const v = parseInt(String(e.target.value).replace(/[٠-٩]/g, c=>"٠١٢٣٤٥٦٧٨٩".indexOf(c)), 10);
+    state.quran.page = (v>=1 && v<=604) ? v : null; saveLocal(); renderQuran();
+  });
+  document.getElementById("hRows").addEventListener("change", e=>{
+    const t = e.target.dataset && e.target.dataset.hz; if (!t) return;
+    const [i,k] = t.split(":"); const h = state.quran.hifz;
+    h[i] = Object.assign({}, h[i]||{}); if (e.target.checked) h[i][k] = true; else delete h[i][k];
+    saveLocal(); renderQuran();
+  });
+
+  renderTabs(); render(); renderQuran();
   let rsz; window.addEventListener("resize", ()=>{ clearTimeout(rsz); rsz = setTimeout(renderTracker, 150); });
 
 
@@ -1427,8 +1521,9 @@ details.recipe[open] summary{border:0;margin-bottom:6px}
         const st = x.state || x;
         if (!st || typeof st !== "object" || !("checks" in st)) throw new Error("bad");
         state.checks = st.checks||{}; state.weights = st.weights||{};
+        state.quran = {page:(st.quran&&st.quran.page)||null, hifz:(st.quran&&st.quran.hifz)||{}};
         state.body = {w:(st.body&&st.body.w)||{}, waist:(st.body&&st.body.waist)||{}};
-        saveLocal(); renderTabs(); render();
+        saveLocal(); renderTabs(); render(); renderQuran();
         showMsg("رجّعت البيانات من النسخة الاحتياطية.");
       }catch(err){ showMsg("الملف ده مش نسخة احتياطية من الأبلكيشن. اختار ملف fourma-backup."); }
       e.target.value = "";
