@@ -354,6 +354,17 @@ main{padding-bottom:calc(var(--tabbar) + env(safe-area-inset-bottom,0px) + 110px
 .sched{padding:14px 0 4px}
 .sched .card-h{padding:0 16px}
 .sched .tl>li:first-child{border-top:1px solid var(--line)}
+
+.tdl{list-style:none;margin:0 0 10px;padding:0}
+.td{display:grid;grid-template-columns:24px 1fr 32px;gap:10px;align-items:start;padding:9px 0;border-top:1px solid var(--line)}
+.td:first-child{border-top:0;padding-top:2px}
+.td label{cursor:pointer;min-width:0;overflow-wrap:anywhere}
+.td .ttl{font-weight:500}
+.tdx{width:32px;height:28px;border:0;background:transparent;color:var(--muted);border-radius:8px;cursor:pointer;display:grid;place-items:center}
+.tdx svg{width:16px;height:16px}
+.tdx:hover{background:var(--surface-2);color:var(--bad)}
+.tdform{display:flex;gap:8px}
+.tdform .field{flex:1;width:auto;min-width:0}
 </style>
 </head>
 <body>
@@ -433,8 +444,8 @@ main{padding-bottom:calc(var(--tabbar) + env(safe-area-inset-bottom,0px) + 110px
           <div class="cell"><div class="v">4</div><div class="l">أيام جيم</div></div>
           <div class="cell"><div class="v">3</div><div class="l">مرات بطن</div></div>
           <div class="cell"><div class="v">1</div><div class="l">ماتش كورة</div></div>
-          <div class="cell"><div class="v">8¼ س</div><div class="l">مذاكرة</div></div>
-          <div class="cell"><div class="v">8 س</div><div class="l">بلايستيشن</div></div>
+          <div class="cell"><div class="v">7¾ س</div><div class="l">مذاكرة</div></div>
+          <div class="cell"><div class="v">7¾ س</div><div class="l">بلايستيشن</div></div>
           <div class="cell"><div class="v">~20 س</div><div class="l">أسرة</div></div>
           <div class="cell"><div class="v">3½ جزء</div><div class="l">ورد قرآن</div></div>
           <div class="cell"><div class="v">1</div><div class="l">مقطع حفظ</div></div>
@@ -603,7 +614,7 @@ main{padding-bottom:calc(var(--tabbar) + env(safe-area-inset-bottom,0px) + 110px
     <h2 id="obT">أهلًا بيك</h2>
     <p class="small" style="margin:4px 0 0">الأبلكيشن متقسّم 5 أجزاء من الشريط اللي تحت:</p>
     <ul class="ob-list">
-      <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3.5" y="4.5" width="17" height="16" rx="3"/><path d="M3.5 9.5h17M8.5 15l2.3 2.2L15.5 13"/></svg></span><span><b>النهارده</b>إنت فين في اليوم، والجاي إيه، والعادات والصلاة، والجدول مقسّم صبح وضهر وليل. علّم على أي حاجة تخلّصها.</span></li>
+      <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3.5" y="4.5" width="17" height="16" rx="3"/><path d="M3.5 9.5h17M8.5 15l2.3 2.2L15.5 13"/></svg></span><span><b>النهارده</b>إنت فين في اليوم، والجاي إيه، ومهامك، والعادات والصلاة، والجدول مقسّم صبح وضهر وليل. علّم على أي حاجة تخلّصها.</span></li>
       <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6.5 7v10M17.5 7v10M3.5 9.5v5M20.5 9.5v5M6.5 12h11"/></svg></span><span><b>التمرين</b>تمرين اليوم تمرين تمرين. اكتب الوزن، وشغّل عدّاد الراحة، وشوف الفيديو لو محتاج.</span></li>
       <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3.5 12h17a8.5 8.5 0 0 1-17 0z"/></svg></span><span><b>الأكل</b>وجبات اليوم بالكميات، والوصفات، والبدائل.</span></li>
       <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 15l4.5-4.5 3.5 3 6-6.5"/></svg></span><span><b>التقدّم</b>الوزن، والقرآن، وإنت ماشي إزاي في الأسبوع.</span></li>
@@ -672,24 +683,28 @@ main{padding-bottom:calc(var(--tabbar) + env(safe-area-inset-bottom,0px) + 110px
   const PRAYERS = [["p1","الفجر"],["p2","الضهر"],["p3","العصر"],["p4","المغرب"],["p5","العشا"]];
 
   const DAYS = [
-    {id:"sun", d:"الأحد", k:"Upper A", badge:"جيم الصبح: الجزء العلوي + بطن",
+    {id:"sun", d:"الأحد", k:"Upper A", badge:"جيم 12 الضهر: الجزء العلوي + بطن",
      note:"أول يوم في الأسبوع. الوزن اللي تختاره النهارده هو اللي هتبني عليه.",
      tl:[
-      ["5:15","sleep","تصحى","كوباية مية"],
-      ["5:20","food","قبل الجيم","القهوة بعد الموزة مش على الريق",["موزة","وبعدها القهوة (بالـ monk fruit لو حابب)"]],
-      ["5:50–7:10","gym","الجيم: Upper A + بطن","التفاصيل تحت"],
-      ["7:15","food","فطار + شاور","",["طبق فول بمعلقة زبدة وكمون وفلفل أسود وملح","2 بيض مسلوق","رغيف بلدي","خيار وطماطم"],["foul","eggs"]],
+      ["4:40","sleep","تصحى مع الفجر","صلاة الفجر، وكوباية مية. المعاد بيتغيّر مع السنة"],
+      ["5:00–7:50","work","شغل","أهدى وقت للتركيز"],
+      ["8:00","food","فطار","قبل الحضانة",["طبق فول بمعلقة زبدة وكمون وفلفل أسود وملح","2 بيض مسلوق","رغيف بلدي","خيار وطماطم","وبعده القهوة"],["foul","eggs"]],
       ["8:30","home","توصيل ابنك الحضانة",""],
-      ["9:00–5:00","work","شغل",""],
-      ["1:30","food","غدا","",["200 جم صدور فراخ متبّلة في الطاسة","كوباية ونص رز مطبوخ","سلطة خضرا بمعلقة زيت زيتون"],["chicken","rice","salad"]],
+      ["9:00–11:55","work","شغل",""],
+      ["11:00","food","سناك قبل الجيم","وأنت بتشتغل",["موزة","مية"]],
+      ["12:00–1:15","gym","الجيم: Upper A + بطن","التفاصيل في شاشة التمرين"],
+      ["1:15","deen","شاور + صلاة الضهر",""],
+      ["1:30","food","غدا","بعد الجيم على طول",["200 جم صدور فراخ متبّلة في الطاسة","كوباية ونص رز مطبوخ","سلطة خضرا بمعلقة زيت زيتون"],["chicken","rice","salad"]],
+      ["1:50–2:20","work","شغل",""],
       ["2:30","home","تجيب ابنك من الحضانة",""],
+      ["2:45–4:30","work","شغل","كده الشغل 8 ساعات"],
+      ["4:30–7:00","home","وقت الأسرة",""],
       ["5:00","food","سناك","",["زبادي يوناني 170 جم","كوباية رمان أو فراولة"],["yogurt"]],
-      ["5:00–7:00","home","وقت الأسرة","ساعتين"],
       ["7:00–7:20","deen","ورد القرآن","نص جزء (10 صفحات) بعد العشا"],
       ["7:30","food","عشا","",["200 جم جبنة قريش بالطماطم والخيار والنعناع","نص رغيف","10 حبات لوز"],["qareesh"]],
-      ["7:45–9:45","self","مذاكرة","ساعتين"],
-      ["9:45–10:15","self","وقت حر","تهدى قبل النوم، ويا ريت من غير موبايل"],
-      ["10:15","sleep","نوم","عشان جيم بكرة الصبح"]],
+      ["7:45–9:15","self","مذاكرة","ساعة ونص"],
+      ["9:15–9:45","self","وقت حر","تهدى قبل النوم، ويا ريت من غير موبايل"],
+      ["9:45","sleep","نوم","عشان تصحى للفجر"]],
      wu:"upper", cd:"upper",
      ex:[
       {n:"Bench Press", k:"main", reps:"6–8", rest:"راحة 2–3 د", c:"البار ينزل على نص صدرك، كتفك مشدود لورا، ورجلك ثابتة في الأرض."},
@@ -700,23 +715,27 @@ main{padding-bottom:calc(var(--tabbar) + env(safe-area-inset-bottom,0px) + 110px
      abs:[
       {n:"Cable Crunch", sets:"3×12", c:"الحركة من البطن، مش من الوسط. اثبت ثانية تحت."},
       {n:"Dead Bug", sets:"3×8 لكل ناحية", c:"ضهرك لازق في الأرض طول الوقت، وحرّك دراع ورجل عكس بعض ببطء."}]},
-    {id:"mon", d:"الاتنين", k:"رجل", badge:"جيم الصبح: الرجل + الوقاية + بطن",
+    {id:"mon", d:"الاتنين", k:"رجل", badge:"جيم 12 الضهر: الرجل + الوقاية + بطن",
      note:"يوم الرجل الوحيد في الجيم، وقبل الماتش بـ 3 أيام ونص. تمرين طويل شوية، فلو الوقت ضاق اختصر المشاية. يوم الميتنج بالليل، فالعشا بدري والنوم بعده على طول.",
      tl:[
-      ["5:15","sleep","تصحى","كوباية مية"],
-      ["5:20","food","قبل الجيم","",["3 تمرات","وبعدها القهوة"]],
-      ["5:50–7:15","gym","الجيم: رجل + بطن","التفاصيل تحت"],
-      ["7:15","food","فطار + شاور","",["أومليت 3 بيض + 2 بياض بالسبانخ والطماطم","50 جم قريش","رغيف"],["omelette"]],
+      ["4:40","sleep","تصحى مع الفجر","صلاة الفجر، وكوباية مية. المعاد بيتغيّر مع السنة"],
+      ["5:00–7:50","work","شغل","أهدى وقت للتركيز"],
+      ["8:00","food","فطار","قبل الحضانة",["أومليت 3 بيض + 2 بياض بالسبانخ والطماطم","50 جم قريش","رغيف","وبعده القهوة"],["omelette"]],
       ["8:30","home","توصيل ابنك الحضانة",""],
-      ["9:00–5:00","work","شغل",""],
-      ["1:30","food","غدا","",["200 جم كفتة مشوية","250 جم بطاطس مشوية بالروزماري","سلطة بلدي"],["kofta","roastpot","salad"]],
+      ["9:00–11:55","work","شغل",""],
+      ["11:00","food","سناك قبل الجيم","وأنت بتشتغل",["3 تمرات","مية"]],
+      ["12:00–1:15","gym","الجيم: رجل + بطن","التفاصيل في شاشة التمرين"],
+      ["1:15","deen","شاور + صلاة الضهر",""],
+      ["1:30","food","غدا","بعد الجيم على طول",["200 جم كفتة مشوية","250 جم بطاطس مشوية بالروزماري","سلطة بلدي"],["kofta","roastpot","salad"]],
+      ["1:50–2:20","work","شغل",""],
       ["2:30","home","تجيب ابنك من الحضانة",""],
+      ["2:45–4:30","work","شغل","كده الشغل 8 ساعات"],
+      ["4:30–7:00","home","وقت الأسرة",""],
       ["5:00","food","سناك","",["زبادي يوناني","تفاحة"]],
-      ["5:00–7:00","home","وقت الأسرة","ساعتين"],
       ["7:00–7:20","deen","ورد القرآن","نص جزء (10 صفحات) بعد العشا"],
       ["7:30","food","عشا","قبل الميتنج",["طبق صغير فول بمعلقة زبدة وكمون وفلفل أسود وملح","علبة تونة لايت بالمية، مصفّاة","نص رغيف"],["foul"]],
       ["8:00–9:30","work","ميتنج",""],
-      ["10:15","sleep","نوم","عشان جيم بكرة الصبح"]],
+      ["10:00","sleep","نوم","بعد الميتنج على طول"]],
      wu:"lower", cd:"lower",
      ex:[
       {n:"Back Squat", k:"main", reps:"6–8", rest:"راحة 2–3 د", c:"انزل لحد ما فخدك يبقى موازي للأرض، ركبتك مع اتجاه صوابعك، وكعبك في الأرض."},
@@ -731,41 +750,47 @@ main{padding-bottom:calc(var(--tabbar) + env(safe-area-inset-bottom,0px) + 110px
       {n:"Hanging Knee Raise", sets:"3×10", c:"من غير مرجحة، وانزل ببطء."},
       {n:"Plank", sets:"3×40 ث", c:"جسمك خط مستقيم، واشفط بطنك. زوّد 5 ثواني كل أسبوع."}]},
     {id:"tue", d:"التلات", k:"راحة", badge:"راحة + مشي",
-     note:"يوم الراحة في نص الأسبوع. الشد في رجلك من امبارح طبيعي، والمشي بيخففه. النوم 10:15 عشان جيم الأربع.",
+     note:"يوم الراحة في نص الأسبوع. نفس مواعيد الشغل، والساعة 12 مشي بدل الجيم. الشد في رجلك من امبارح طبيعي، والمشي بيخففه.",
      tl:[
-      ["6:30","sleep","تصحى","كوباية مية"],
-      ["6:30","food","قبل المشي","",["موزة","وبعدها القهوة"]],
-      ["6:35–7:10","gym","مشي سريع 35 دقيقة","وبعده 5 دقايق إطالات للرجل"],
-      ["7:20","food","فطار + شاور","",["طبق فول بمعلقة زبدة وكمون وفلفل أسود وملح","2 بيض مسلوق","نص رغيف","جرجير"],["foul","eggs"]],
+      ["4:40","sleep","تصحى مع الفجر","صلاة الفجر، وكوباية مية. المعاد بيتغيّر مع السنة"],
+      ["5:00–7:50","work","شغل","أهدى وقت للتركيز"],
+      ["8:00","food","فطار","قبل الحضانة",["طبق فول بمعلقة زبدة وكمون وفلفل أسود وملح","2 بيض مسلوق","نص رغيف","جرجير","وبعده القهوة"],["foul","eggs"]],
       ["8:30","home","توصيل ابنك الحضانة",""],
-      ["9:00–5:00","work","شغل",""],
-      ["1:30","food","غدا","",["250 جم بلطي أو دنيس مشوي","كوباية رز صيادية","سلطة بمعلقة طحينة"],["fish","sayadeya","tahini"]],
+      ["9:00–11:55","work","شغل",""],
+      ["12:00–12:40","gym","مشي سريع 35 دقيقة","وبعده 5 دقايق إطالات للرجل"],
+      ["12:45","deen","شاور + صلاة الضهر",""],
+      ["1:30","food","غدا","بعد الجيم على طول",["250 جم بلطي أو دنيس مشوي","كوباية رز صيادية","سلطة بمعلقة طحينة"],["fish","sayadeya","tahini"]],
+      ["1:50–2:20","work","شغل",""],
       ["2:30","home","تجيب ابنك من الحضانة",""],
+      ["2:45–4:30","work","شغل","كده الشغل 8 ساعات"],
+      ["4:30–7:00","home","وقت الأسرة",""],
       ["5:00","food","سناك","",["150 جم قريش بالخيار والنعناع","جوافة"],["qareesh"]],
-      ["5:00–7:00","home","وقت الأسرة","ساعتين"],
       ["7:00–7:20","deen","ورد القرآن","نص جزء (10 صفحات) بعد العشا"],
       ["7:30","food","عشا","",["200 جم ستيك مشوي (وش فخدة أو كلوتة أو بوفتيك)","خضار سوتيه (كوسة وفلفل وجزر) بمعلقة زيت","150 جم بطاطس مسلوقة مهروسة"],["steak","sautee","mash"]],
-      ["7:45–9:45","self","بلايستيشن","ساعتين، يوم الراحة"],
-      ["10:15","sleep","نوم","عشان جيم بكرة الصبح"]],
+      ["7:45–9:30","self","بلايستيشن","ساعة و45 دقيقة، يوم الراحة"],
+      ["9:45","sleep","نوم","عشان تصحى للفجر"]],
      wu:null, cd:"lower", ex:[], abs:[]},
-    {id:"wed", d:"الأربع", k:"Upper B", badge:"جيم الصبح: الجزء العلوي + بطن",
-     note:"يوم الميتنج. النوم بعده على طول، عشان جيم الخميس الصبح.",
+    {id:"wed", d:"الأربع", k:"Upper B", badge:"جيم 12 الضهر: الجزء العلوي + بطن",
+     note:"يوم الميتنج. النوم بعده على طول، عشان تصحى للفجر.",
      tl:[
-      ["5:15","sleep","تصحى","كوباية مية"],
-      ["5:20","food","قبل الجيم","",["3 تمرات","وبعدها القهوة"]],
-      ["5:50–7:10","gym","الجيم: Upper B + بطن","التفاصيل تحت"],
-      ["7:15","food","فطار + شاور","",["60 جم شوفان بـ 250 مل لبن خالي الدسم","معلقة صغيرة زبدة فول سوداني","2 بيض مسلوق"],["oats","eggs"]],
+      ["4:40","sleep","تصحى مع الفجر","صلاة الفجر، وكوباية مية. المعاد بيتغيّر مع السنة"],
+      ["5:00–7:50","work","شغل","أهدى وقت للتركيز"],
+      ["8:00","food","فطار","قبل الحضانة",["60 جم شوفان بـ 250 مل لبن خالي الدسم","معلقة صغيرة زبدة فول سوداني","2 بيض مسلوق","وبعده القهوة"],["oats","eggs"]],
       ["8:30","home","توصيل ابنك الحضانة",""],
-      ["9:00–5:00","work","شغل",""],
-      ["1:30","food","غدا","",["مكرونة بولونيز: 200 جم لحمة مفرومة قليلة الدسم","250 جم مكرونة مطبوخة بصلصة طماطم","سلطة"],["bolognese","salad"]],
+      ["9:00–11:55","work","شغل",""],
+      ["11:00","food","سناك قبل الجيم","وأنت بتشتغل",["3 تمرات","مية"]],
+      ["12:00–1:15","gym","الجيم: Upper B + بطن","التفاصيل في شاشة التمرين"],
+      ["1:15","deen","شاور + صلاة الضهر",""],
+      ["1:30","food","غدا","بعد الجيم على طول",["مكرونة بولونيز: 200 جم لحمة مفرومة قليلة الدسم","250 جم مكرونة مطبوخة بصلصة طماطم","سلطة"],["bolognese","salad"]],
+      ["1:50–2:20","work","شغل",""],
       ["2:30","home","تجيب ابنك من الحضانة",""],
+      ["2:45–4:30","work","شغل","كده الشغل 8 ساعات"],
+      ["4:30–7:00","home","وقت الأسرة",""],
       ["5:00","food","سناك","",["طبق صغير فول بمعلقة زبدة وكمون وفلفل أسود وملح","نص رغيف"],["foul"]],
-      ["5:00–7:00","home","وقت الأسرة","ساعتين"],
       ["7:00–7:20","deen","ورد القرآن","نص جزء (10 صفحات) بعد العشا"],
       ["7:30","food","عشا","قبل الميتنج",["200 جم قريش","خيار","تفاحة","10 حبات لوز"]],
       ["8:00–9:30","work","ميتنج",""],
-      ["9:45–10:15","self","وقت حر","تهدى قبل النوم، ويا ريت من غير موبايل"],
-      ["10:15","sleep","نوم","عشان جيم بكرة الصبح"]],
+      ["10:00","sleep","نوم","بعد الميتنج على طول"]],
      wu:"upper", cd:"upper",
      ex:[
       {n:"Incline Dumbbell Press", k:"main", reps:"8–10", rest:"راحة 2 د", c:"زاوية البنش 30°، والدمبل ينزل لحد جنب صدرك."},
@@ -777,28 +802,32 @@ main{padding-bottom:calc(var(--tabbar) + env(safe-area-inset-bottom,0px) + 110px
      abs:[
       {n:"Hanging Leg Raise", sets:"3×8–10", c:"لو صعبة، اعملها بالركبة مثنية. من غير مرجحة."},
       {n:"Pallof Press", sets:"3×10 لكل ناحية", c:"واقف جنب الكابل، ادفع الحبل لقدّام ومتسيبش جسمك يلف. بيثبّتك في الكورة."}]},
-    {id:"thu", d:"الخميس", k:"كتف ودراع", badge:"جيم الصبح: كتف ودراع · ماتش 9–11 بالليل",
-     note:"الصبح كتف ودراع بس، تمارين خفيفة على الجسم ومش بتلمس رجلك. النشويات أعلى النهارده عشان الجيم والماتش، والنوم متأخر عادي لأن الجمعة إجازة.",
+    {id:"thu", d:"الخميس", k:"كتف ودراع", badge:"جيم 12 الضهر: كتف ودراع · ماتش 9 بالليل",
+     note:"الضهر كتف ودراع بس، تمارين خفيفة على الجسم ومش بتلمس رجلك. النشويات أعلى النهارده عشان الجيم والماتش، والنوم متأخر عادي لأن الجمعة إجازة.",
      tl:[
-      ["5:15","sleep","تصحى","كوباية مية"],
-      ["5:20","food","قبل الجيم","",["موزة","وبعدها القهوة"]],
-      ["5:50–6:55","gym","الجيم: كتف ودراع","التفاصيل تحت. مفيش رجل النهارده"],
-      ["7:15","food","فطار + شاور","",["طبق فول بمعلقة زبدة وكمون وفلفل أسود وملح","2 بيض مسلوق","رغيف","طماطم","خيار"],["foul","eggs"]],
+      ["4:40","sleep","تصحى مع الفجر","صلاة الفجر، وكوباية مية. المعاد بيتغيّر مع السنة"],
+      ["5:00–7:50","work","شغل","أهدى وقت للتركيز"],
+      ["8:00","food","فطار","قبل الحضانة",["طبق فول بمعلقة زبدة وكمون وفلفل أسود وملح","2 بيض مسلوق","رغيف","طماطم","خيار","وبعده القهوة"],["foul","eggs"]],
       ["8:30","home","توصيل ابنك الحضانة",""],
-      ["9:00–5:00","work","شغل",""],
-      ["1:30","food","غدا","",["200 جم لحمة قطع صغيرة متشوّحة في معلقة زبدة بالبصل والفلفل الألوان","كوبايتين رز","سلطة"],["beefcubes","rice","salad"]],
+      ["9:00–11:55","work","شغل",""],
+      ["11:00","food","سناك قبل الجيم","وأنت بتشتغل",["موزة","مية"]],
+      ["12:00–1:00","gym","الجيم: كتف ودراع","مفيش رجل النهارده"],
+      ["1:00","deen","شاور + صلاة الضهر",""],
+      ["1:30","food","غدا","بعد الجيم على طول",["200 جم لحمة قطع صغيرة متشوّحة في معلقة زبدة بالبصل والفلفل الألوان","كوبايتين رز","سلطة"],["beefcubes","rice","salad"]],
+      ["1:50–2:20","work","شغل",""],
       ["2:30","home","تجيب ابنك من الحضانة",""],
+      ["2:45–4:30","work","شغل","كده الشغل 8 ساعات"],
+      ["4:30–6:40","home","وقت الأسرة",""],
       ["5:00","food","سناك","",["زبادي يوناني","موزة"],["yogurt"]],
-      ["5:00–6:40","home","وقت الأسرة",""],
       ["6:40–7:00","deen","ورد القرآن","نص جزء"],
       ["7:00","food","وجبة قبل الماتش","قبله بساعتين",["علبة تونة لايت بالمية","250 جم بطاطس مسلوقة مهروسة (بشوية لبن خالي الدسم وملح وفلفل)","خيار"],["mash"]],
       ["7:15–8:30","self","مذاكرة","ساعة وربع"],
       ["8:30","food","طاقة سريعة","",["3 تمرات","مية بملح وليمون"]],
-      ["8:45","gym","إحماء الكورة","15 دقيقة، التفاصيل تحت"],
+      ["8:45","gym","إحماء الكورة","15 دقيقة، التفاصيل في شاشة التمرين"],
       ["9:00–11:00","gym","الكورة",""],
       ["11:15","food","وجبة الاستشفاء","وبعدها الإطالات",["كوباية لبن خالي الدسم","موزة"]],
       ["11:30–1:00","self","بلايستيشن","ساعة ونص، الجمعة إجازة"],
-      ["1:15","sleep","نوم",""]],
+      ["1:15","sleep","نوم","الجمعة صلي الفجر وكمّل نومك"]],
      wu:["upper","football"], cd:"football",
      ex:[
       {n:"Cable Lateral Raise", k:"iso", sets:3, reps:"15", rest:"راحة 45 ث لكل ناحية", c:"البكرة تحت، والكابل معدّي من قدّام جسمك. ارفع لحد مستوى كتفك وانزل ببطء. الكابل بيشد الكتف وهو متمطّط تحت.", partial:true},
@@ -812,7 +841,7 @@ main{padding-bottom:calc(var(--tabbar) + env(safe-area-inset-bottom,0px) + 110px
     {id:"fri", d:"الجمعة", k:"ليونة", badge:"راحة + ليونة + الوجبة الحرة",
      note:"اليوم اللي بيشحن فيه جسمك. الصبح الحفظ والجمعة، وبعدها بلايستيشن ساعتين، وبالعصر مشي وليونة مع الأسرة.",
      tl:[
-      ["براحتك","sleep","تصحى","نوم كامل"],
+      ["براحتك","sleep","تصحى","بعد الفجر كمّل نومك لو محتاج"],
       ["10:00","food","فطار","",["طبق فول بمعلقة زبدة وكمون وفلفل أسود وملح","2 بيض","رغيف","وبعده القهوة"],["foul","eggs"]],
       ["10:30–11:15","deen","حفظ: المقطع الجديد","تفسير ونطق وحفظ النص الأول، التفاصيل تحت"],
       ["11:30–12:45","deen","صلاة الجمعة",""],
@@ -836,7 +865,7 @@ main{padding-bottom:calc(var(--tabbar) + env(safe-area-inset-bottom,0px) + 110px
       {n:"Deep Squat Hold", sets:"2×30 ث", c:"انزل سكوات لآخره، واسند على حاجة لو محتاج."},
       {n:"Thoracic Open Book", sets:"8 لكل ناحية", c:"نايم على جنبك وافتح دراعك للناحية التانية. ليونة نص الضهر."}]}]},
     {id:"sat", d:"السبت", k:"وقاية", badge:"راحة + تمرين الكورة في البيت",
-     note:"مفيش جيم. 20 دقيقة في البيت للركبة والكاحل والكور، وينفعوا وأنت مسافر. محتاج أستك مقاومة صغير (mini band) وسلمة. النوم 10:15 عشان جيم الأحد الصبح.",
+     note:"مفيش جيم. 20 دقيقة في البيت للركبة والكاحل والكور، وينفعوا وأنت مسافر. محتاج أستك مقاومة صغير (mini band) وسلمة. النوم 9:45 عشان تصحى للفجر يوم الأحد.",
      tl:[
       ["8:00","sleep","تصحى",""],
       ["8:30","food","فطار","",["طبق فول بمعلقة زبدة وكمون وفلفل أسود وملح","أومليت 3 بياض + بيضة","رغيف","وبعده القهوة"],["foul","omelette"]],
@@ -849,8 +878,8 @@ main{padding-bottom:calc(var(--tabbar) + env(safe-area-inset-bottom,0px) + 110px
       ["5:00","food","سناك","",["200 جم قريش","خيار","برتقالة أو تفاحة"]],
       ["7:30–7:50","deen","ورد القرآن","نص جزء"],
       ["8:00","food","عشا","",["كوباية شوربة عدس","سلطة تونة: علبة تونة لايت بالمية + خيار وطماطم وبصل وليمون","ربع رغيف"],["lentil","tunasalad"]],
-      ["8:30–10:00","home","وقت حر مع الأسرة",""],
-      ["10:15","sleep","نوم","عشان جيم بكرة الصبح"]],
+      ["8:30–9:30","home","وقت حر مع الأسرة",""],
+      ["9:45","sleep","نوم","عشان تصحى للفجر"]],
      wu:null, cd:null, ex:[], abs:[],
      routines:[{id:"r1", title:"تمرين الكورة في البيت", time:"20 دقيقة", items:[
       {n:"Lateral Band Walk", sets:"2×12 لكل ناحية", c:"أستك فوق الركبة، نزّل وسطك سنة، والركبة متدخلش لجوه. بيقوّي جانب الحوض ويحمي الركبة."},
@@ -882,13 +911,14 @@ main{padding-bottom:calc(var(--tabbar) + env(safe-area-inset-bottom,0px) + 110px
   /* ---------- state + storage ---------- */
   const state = { checks:{}, weights:{}, body:{w:{}, waist:{}} }; // body.w[date]=kg, body.waist[date]=cm
   state.quran = {page:null, hifz:{}};
+  state.todos = {};   // todos[date] = [{id, text, done, from}]
   let db = null;
   const LS = {
     get(k){ try{ return JSON.parse(localStorage.getItem(k)||"null"); }catch(e){ return null; } },
     set(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
   };
   const cached = LS.get("fit:v2");
-  if (cached){ state.checks = cached.checks||{}; state.weights = cached.weights||{}; if (cached.body) state.body = {w:cached.body.w||{}, waist:cached.body.waist||{}}; if (cached.quran) state.quran = {page:cached.quran.page||null, hifz:cached.quran.hifz||{}}; }
+  if (cached){ state.checks = cached.checks||{}; state.weights = cached.weights||{}; if (cached.body) state.body = {w:cached.body.w||{}, waist:cached.body.waist||{}}; if (cached.quran) state.quran = {page:cached.quran.page||null, hifz:cached.quran.hifz||{}}; if (cached.todos) state.todos = cached.todos; }
   const saveLocal = () => LS.set("fit:v2", state);
 
   const chains = {};
@@ -1457,7 +1487,7 @@ main{padding-bottom:calc(var(--tabbar) + env(safe-area-inset-bottom,0px) + 110px
 
   function renderToday(){
     const day = curDay(), date = curDate(), c = checksOf(date);
-    let h = heroHTML();
+    let h = heroHTML() + todoHTML();
     const wv = (state.body.w||{})[date];
     h += `<div class="card"><div class="card-h"><h2>عادات اليوم</h2><span class="small" data-cnt="${HABITS.map(x=>x[0]).join(",")}"></span></div>
       <div class="weighrow"><label for="wIn">وزنك الصبح</label><input class="field" id="wIn" inputmode="decimal" placeholder="كجم" value="${wv!=null?esc(wv):""}"><span class="small">كجم</span></div>
@@ -1649,6 +1679,67 @@ main{padding-bottom:calc(var(--tabbar) + env(safe-area-inset-bottom,0px) + 110px
   }
 
   /* ===================== marks: update every visible checkbox and counter ===================== */
+
+  /* ===================== TO-DO: per-day tasks, unfinished ones move to today ===================== */
+  const DAYNAME = id => (DAYS.find(d=>d.id===id)||{}).d || "";
+  function dayLabel(dateStr){
+    const d = new Date(dateStr+"T00:00");
+    const diff = Math.round((d - today) / 86400000);
+    if (diff === 0) return "النهارده";
+    if (diff === -1) return "امبارح";
+    if (diff === 1) return "بكرة";
+    return `${DAYNAME(ORDER[d.getDay()])} ${short(d)}`;
+  }
+  function rollover(){
+    const t = iso(today); let carried = [];
+    Object.keys(state.todos).sort().forEach(d => {
+      if (d >= t) return;
+      const list = state.todos[d] || [], keep = [];
+      list.forEach(x => { if (x.done) keep.push(x); else carried.push(Object.assign({}, x, {from: x.from || d})); });
+      if (keep.length) state.todos[d] = keep; else delete state.todos[d];
+    });
+    if (carried.length){ state.todos[t] = carried.concat(state.todos[t] || []); saveLocal(); }
+  }
+  function todoHTML(){
+    const date = curDate(), list = state.todos[date] || [];
+    const done = list.filter(x=>x.done).length;
+    const past = date < iso(today);
+    const items = list.map(x => `<li class="td${x.done?" is-done":""}" data-tid="${x.id}">
+        <input type="checkbox" class="ck" data-todo="${x.id}" id="td-${x.id}" ${x.done?"checked":""}>
+        <label for="td-${x.id}"><span class="ttl">${esc(x.text)}</span>${x.from?`<span class="sub">مترحّلة من ${esc(dayLabel(x.from))}</span>`:""}</label>
+        <button type="button" class="tdx" data-deltodo="${x.id}" aria-label="امسح المهمة: ${esc(x.text)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></li>`).join("");
+    return `<div class="card" id="todos"><div class="card-h"><h2>مهام ${isToday()?"النهارده":dayLabel(date)}</h2><span class="small">${list.length?`${done}/${list.length}`:""}</span></div>
+      ${list.length?`<ul class="tdl">${items}</ul>`:`<p class="small" style="margin:0 0 10px">${past?"مفيش مهام متسجلة لليوم ده.":"مفيش مهام لسه. اكتب أول مهمة تحت."}</p>`}
+      ${past?`<p class="small" style="margin:8px 0 0">المهام اللي مخلصتش بتترحّل للنهارده لوحدها.</p>`:`<form class="tdform" id="todoForm" autocomplete="off"><input class="field" id="todoIn" maxlength="140" placeholder="ضيف مهمة ${isToday()?"للنهارده":"لـ"+dayLabel(date)}" aria-label="مهمة جديدة"><button class="btn primary" type="submit">ضيف</button></form>`}
+      </div>`;
+  }
+  function redrawTodos(keepFocus){
+    const el = document.getElementById("todos"); if (!el) return;
+    el.outerHTML = todoHTML();
+    if (keepFocus){ const i = document.getElementById("todoIn"); if (i) i.focus(); }
+  }
+  document.addEventListener("submit", e => {
+    if (e.target.id !== "todoForm") return;
+    e.preventDefault();
+    const inp = document.getElementById("todoIn"), text = inp.value.trim(); if (!text) return;
+    const date = curDate();
+    state.todos[date] = (state.todos[date] || []).concat({id: Date.now().toString(36) + Math.random().toString(36).slice(2,5), text, done:false});
+    saveLocal(); redrawTodos(true);
+  });
+  document.addEventListener("change", e => {
+    const id = e.target.dataset && e.target.dataset.todo; if (!id) return;
+    const list = state.todos[curDate()] || [], x = list.find(t=>t.id===id); if (!x) return;
+    x.done = e.target.checked; saveLocal(); redrawTodos(false);
+  });
+  document.addEventListener("click", e => {
+    const b = e.target.closest("[data-deltodo]"); if (!b) return;
+    const date = curDate();
+    state.todos[date] = (state.todos[date] || []).filter(t=>t.id!==b.dataset.deltodo);
+    if (!state.todos[date].length) delete state.todos[date];
+    saveLocal(); redrawTodos(false);
+  });
+  rollover();
+
   function refreshMarks(){
     const date = curDate(), c = checksOf(date);
     document.querySelectorAll("main [data-ck]").forEach(el => {
@@ -1810,6 +1901,7 @@ main{padding-bottom:calc(var(--tabbar) + env(safe-area-inset-bottom,0px) + 110px
         if (!st || typeof st !== "object" || !("checks" in st)) throw new Error("bad");
         state.checks = st.checks||{}; state.weights = st.weights||{};
         state.quran = {page:(st.quran&&st.quran.page)||null, hifz:(st.quran&&st.quran.hifz)||{}};
+        state.todos = st.todos || {}; rollover();
         state.body = {w:(st.body&&st.body.w)||{}, waist:(st.body&&st.body.waist)||{}};
         saveLocal(); renderScreen();
         showMsg("رجّعت البيانات من النسخة الاحتياطية.");
